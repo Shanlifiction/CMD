@@ -43,7 +43,7 @@ class HandleAll:
     def command_valid_syntax(self):
         return True
     #innehållet stämmer?
-    #antal argument är korrekt (cd är solo, medan mkdir skapar (kan gå ihop med fler)
+    #antal argument är korrekt (cd är "solo", medan mkdir "skapar" (kan gå ihop med fler)
     #skrivet på korrekt sätt
     
     def command_valid_argzzz(self):
@@ -59,24 +59,24 @@ class HandleAll:
         #split command into a list
         self.command_split = self.command_input.split() 
 
-        if not self.command_exists(): #if sats som kollar om commandot EJ finns
+        if not self.command_exists(): #if-sats som kollar om commandot tex "move" EJ finns
             print("Command does not exist.")
             return
 
-        if not self.command_valid_syntax():
+        if not self.command_valid_syntax(): #tex "move" "fil.txt" -> "mapp/fil.txt" finns alla dessa argument och fungerar dom tillsammans?
             print("Invalid syntax.")
             return
         
-        if not self.command_valid_argzzz():
+        if not self.command_valid_argzzz(): #finns mappen som ska flyttas etc (?)
             print("Here we go again.")
             return
 
         print(self.command_input, " -> ", self.command_split)
 
         #try/except
-        #OBS    
-        #valid path     #tex "move" finns commandot? & "fil.txt" "mapp/fil.txt" finns dessa två argument?
-                                                                                #fungerar dom tillsammans?
+        #OBS
+        #valid path
+
 
 def main():
     while True:
