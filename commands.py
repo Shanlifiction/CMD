@@ -2,7 +2,7 @@
 
 #when command_validity_passed ->
 def _move(source, destination): #parametrar kan också va skrivet med *arg
-    print("move funtion", source, destination) #args[0], args[1] (args bra att användas till commands som kan skrivas på flera sätt)
+    print("move function", source, destination) #args[0], args[1] (args bra att användas till commands som kan skrivas på flera sätt)
                                                                             #och i relation till andra argument tex ">"
 
 #dic /class #valid_commands["echo"]("text", ">", "fil.txt")     #**kwargs finnd också!

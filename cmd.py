@@ -1,12 +1,8 @@
 
-#global var tex current_dir
-#global var
 #global var
 current_dir = "" #current_dir = "" #platsposition
 
-#dics (giltiga commandon) key: CD & value: func ->
-#dics
-#dics
+#dics (giltiga commandon) key "cd": value "func ->"
 
 #class (error handle)
 class HandleAll:
@@ -54,24 +50,30 @@ class HandleAll:
     def process_input(self):
         if self.command_input.strip() == "": #kollar om command har innehåll och tar bort ev mellanslag
             print("Please enter valid command.")
-            return
+            return False
         
         #split command into a list
         self.command_split = self.command_input.split() 
 
         if not self.command_exists(): #if-sats som kollar om commandot tex "move" EJ finns
             print("Command does not exist.")
-            return
+            return False
 
         if not self.command_valid_syntax(): #tex "move" "fil.txt" -> "mapp/fil.txt" finns alla dessa argument och fungerar dom tillsammans?
             print("Invalid syntax.")
-            return
+            return False
         
-        if not self.command_valid_argzzz(): #finns mappen som ska flyttas etc (?)
+        if not self.command_valid_argzzz(): #tex finns mappen som ska flyttas etc (?)
             print("Here we go again.")
-            return
+            return False
+        
+        return True  #annars avsluta och meddela 
 
         print(self.command_input, " -> ", self.command_split)
+
+    def call_command(self): #utför commandot (efter command är validerat)
+        ...
+
 
         #try/except
         #OBS
@@ -81,8 +83,10 @@ class HandleAll:
 def main():
     while True:
         command_input = (input(f"{current_dir}>")) #det är en string
-        command1 = HandleAll(command_input)
-        command1.process_input()
+        command1 = HandleAll(command_input) #skapar objekt/instans i klass HandleAll
+        if command1.process_input() == True: #genom en process validerar commandet
+            command1.call_command() #gör jobbet (också genom en if-sats-process)
+            
 
     
 main()
