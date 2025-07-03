@@ -23,8 +23,48 @@ def sh_dir(arguments):
     for element in os.listdir(path):
         print(element)
 
+def sh_cd(arguments):
+    global current_dir
+    current_dir = arguments[0]
+"""
+    if os.path.isabs(arguments[0]): #absolut väg
+        current_dir = arguments[0] #absolut sökväg (args)ersätter
+    else: #relativ 
+       current_dir += "/" + arguments[0] #adderar
+"""
 
+def sh_cddotdot(arguments):
+    ...
 
+def sh_cdslash(arguments):
+    ...
 
-def sh_cd():
+def sh_md(arguments):
+    ...
+
+def sh_rd(arguments):
+    ...
+
+def sh_remove(arguments):
+    ...
+
+def sh_rename(arguments):
+    ...
+
+def sh_xcopy(arguments):
+    ...
+
+def sh_copy(arguments):
+    ...
+
+def sh_move(argumets):
+    ...
+
+def sh_echo(arguments):
+    ...
+
+def sh_cls(arguments):
+    ...
+
+def sh_exit(arguments):
     ...

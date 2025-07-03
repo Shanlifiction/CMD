@@ -17,23 +17,23 @@ class HandleAll:
         self.valid_commands = {
             "dir": [sh_dir, [0, 1]],    #0=func soon (utan parantes på slutet av funtionen)
             "cd": [sh_cd, [1]],
-            "cd..": [2, [0]],
-            "cd/": [3,[0]],
-            "md": [4, [i for i in range(1, 69)]],
-            "rd": [5, [i for i in range(1, 69)]],
-            "erase": [6, [i for i in range(1, 69)]], #same
-            "del": [6, [i for i in range(1, 69)]], #same
-            "remove": [6, [i for i in range(1, 69)]], #same
-            "rename": [7, [2]],
-            "xcopy": [8, [2]],
-            "copy": [9, [2]],
-            "move": [10, [2]],
-            "echo": [11, [1, 3]],
-            "cls": [12, [0]],  #same
-            "clear": [12, [0]], #same
-            "exit": [13, [0]], #same
-            "quit": [13, [0]], #same
-            "q": [13, [0]] #same
+            "cd..": [sh_cddotdot, [0]],
+            "cd/": [sh_cdslash,[0]],
+            "md": [sh_md, [i for i in range(1, 69)]],
+            "rd": [sh_rd, [i for i in range(1, 69)]],
+            "erase": [sh_remove, [i for i in range(1, 69)]], #same
+            "del": [sh_remove, [i for i in range(1, 69)]], #same
+            "remove": [sh_remove, [i for i in range(1, 69)]], #same
+            "rename": [sh_rename, [2]],
+            "xcopy": [sh_xcopy, [2]],
+            "copy": [sh_copy, [2]],
+            "move": [sh_move, [2]],
+            "echo": [sh_echo, [1, 3]],
+            "cls": [sh_cls, [0]],  #same
+            "clear": [sh_cls, [0]], #same
+            "exit": [sh_exit, [0]], #same
+            "quit": [sh_exit, [0]], #same
+            "q": [sh_exit, [0]] #same
         }
 
     def command_exists(self):
@@ -70,9 +70,15 @@ class HandleAll:
             return True
 
         for arg in self.args:
+            if os.path.isabs(arg): #kollar om arg Är absolut
             #if arg in os.path.exists(arg): #"arg in" no need
-            if not os.path.exists(arg): #om funktionen INTE finns SÅ return true/false
-                return False
+                if not os.path.exists(arg): #om path:en ej FINNS SÅ return true/false
+                    return False
+            else: #ifall arg ej är absolut, men finns sökväg?
+                #os.path.isabs(current_dir + "/" + arg) 
+                if not os.path.exists(commands.current_dir + "/" + arg):
+                    return False
+
         return True
     #argument (tex mappen) existerar osv
     #innehållet i commandot stämmer? Tex path/destination
@@ -98,7 +104,7 @@ class HandleAll:
             return False
         
         if not self.command_valid_args(): #tex finns mappen som ska flyttas etc (?)
-            print("Here we go again.")
+            print("Invalid arguments.")
             return False
         
         print(self.command_input, " -> ", self.command_split)
