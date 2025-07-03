@@ -16,24 +16,23 @@ class HandleAll:
         self.valid_commands = {
             "dir": [sh_dir, [0, 1]],    #0=func soon (utan parantes)
             "cd": [sh_cd, [1]],
-            "cd..": [2, [0]],
-            "cd/": [3, [0]],
-            "md": [4, [i for i in range(1, 69)]],
-            "rd": [5, [i for i in range(1, 69)]],
-            "erase": [6, [i for i in range(1, 69)]], #same
-            "del": [6, [i for i in range(1, 69)]],   #same
-            "remove": [6, [i for i in range(1, 69)]], #same
-            "rename": [7, [2]],
-            "xcopy": [8, [2]],
-            "copy": [9, [2]],
-            "move": [10, [2]],
-            "echo": [11, [1, 3]],
-            "cls": [12, [0]],  #same
-            "clear": [12, [0]], #same
-            "exit": [13, [0]], #same
-            "quit": [13, [0]], #same
-            "q": [13, [0]], #same
-            "sigma": [14, [0]]
+            "cd..": [sh_cddotdot, [0]],
+            "cd/": [sh_cdslash, [0]],
+            "md": [sh_md, [i for i in range(1, 69)]],
+            "rd": [sh_rd, [i for i in range(1, 69)]],
+            "erase": [sh_remove, [i for i in range(1, 69)]], #same
+            "del": [sh_remove, [i for i in range(1, 69)]],   #same
+            "remove": [sh_remove, [i for i in range(1, 69)]], #same
+            "rename": [sh_rename, [2]],
+            "xcopy": [sh_xcopy, [2]],
+            "copy": [sh_copy, [2]],
+            "move": [sh_move, [2]],
+            "echo": [sh_echo, [1, 3]],
+            "cls": [sh_cls, [0]],  #same
+            "clear": [sh_cls, [0]], #same
+            "exit": [sh_exit, [0]], #same
+            "quit": [sh_exit, [0]], #same
+            "q": [sh_exit, [0]] #same
         }
 
     def command_exists(self):
@@ -55,7 +54,8 @@ class HandleAll:
     def command_valid_args(self):
         '''Check if the arguments provided are valid'''
         # create a list of all arguments
-        self.args = [arg for arg in self.command_split]
+        self.args = [os.path.normpath(os.path.join(commands.current_dir, arg)) for arg in self.command_split]
+        # self.args = [arg for arg in self.command_split]
         command = self.args.pop(0)
 
         # if command is echo do something different
@@ -74,10 +74,24 @@ class HandleAll:
             return True
 
         # otherwise check if arguments are valid paths / files
+        # os.path.abspath()
         for arg in self.args:
             if not os.path.exists(arg):
                 return False
 
+            '''x = os.path.join(commands.current_dir, arg)
+            print(f"{arg=}, {x=}, {os.path.normpath(x)}")
+            if not os.path.exists(os.path.normpath(x)):
+                return False
+            continue
+            if os.path.isabs(arg):
+                print("absolut", arg)
+                if not os.path.exists(arg):
+                    return False
+            else:
+                print("relativ", arg, commands.current_dir + "\\" + arg)
+                if not os.path.exists(commands.current_dir + "\\" + arg):
+                    return False'''
         return True
 
     def process_input(self):
@@ -104,13 +118,11 @@ class HandleAll:
             print("Invalid arguments.")
             return False
         
-        print("Success:", self.command_input, " -> ", self.command_split)
+        # print("Success:", self.command_input, " -> ", self.command_split)
         return True
 
     def call_command(self):
         self.valid_commands[self.command_split[0]][0](self.args)  # get the function from the dictionary and call it
-
-
 
         # sh_dir()
         # sh_dir(self.args)
