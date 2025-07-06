@@ -1,4 +1,5 @@
 import os
+import shutil
 
 current_dir = ""
 
@@ -38,37 +39,53 @@ def sh_cd(arguments):
         current_dir = abs_path'''
 
 def sh_cddotdot(arguments):
-    ...
+    global current_dir
+    current_dir = os.path.normpath(os.path.join(current_dir, ".."))
 
 def sh_cdslash(arguments):
-    ...
+    global current_dir
+    current_dir = os.path.normpath("C:\\")
+    # current_dir = os.path.normpath("~")
 
 def sh_md(arguments):
-    ...
+    for arg in arguments:
+        os.mkdir(arg)
 
 def sh_rd(arguments):
-    ...
+    for arg in arguments:
+        # os.rmdir(arg)
+        shutil.rmtree(arg)
 
 def sh_remove(arguments):
-    ...
-
+    for arg in arguments:
+        os.remove(arg)
+    
 def sh_rename(arguments):
-    ...
+    os.rename(arguments[0], arguments[1])
 
 def sh_xcopy(arguments):
-    ...
+    shutil.copytree(arguments[0], arguments[1])
 
 def sh_copy(arguments):
-    ...
+    shutil.copy(arguments[0], arguments[1])
 
 def sh_move(arguments):
-    ...
+    shutil.move(arguments[0], arguments[1])
 
 def sh_echo(arguments):
-    ...
+    if len(arguments) == 3:
+        with open(arguments[2], "a") as file:
+            file.write(arguments[0])
+    else:
+        print(arguments[0])
+
+def sh_type(arguments):
+    with open(arguments[0], "r") as file:
+        content = file.read()
+        print(content)
 
 def sh_cls(arguments):
-    ...
+    os.system("cls")
 
 def sh_exit(arguments):
-    ...
+    exit(0)
