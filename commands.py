@@ -40,7 +40,10 @@ def sh_cddotdot(arguments):
 
 def sh_cdslash(arguments):
     global current_dir
-    current_dir = os.path.normpath("/Users")
+    if os.name == "nt": #Windows
+        current_dir = os.path.normpath("C:\\")
+    if os.name == "posix":#mac / Linux
+        current_dir = os.path.normpath("/Users")
 
 def sh_md(arguments):
     global current_dir
@@ -84,7 +87,10 @@ def sh_type(arguments):
         print(content) #type ut innehåll
 
 def sh_cls(arguments):
-    os.system("clear")
+    if os.name == "nt":
+        os.system("cls")
+    if os.name == "posix":
+        os.system("clear")
 
 def sh_exit(arguments):
     #os.system("exit")
