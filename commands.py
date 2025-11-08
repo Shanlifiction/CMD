@@ -42,7 +42,7 @@ def sh_cdslash(arguments):
     global current_dir
     if os.name == "nt": #Windows
         current_dir = os.path.normpath("C:\\")
-    if os.name == "posix":#mac / Linux
+    if os.name == "posix": #mac / Linux
         current_dir = os.path.normpath("/Users")
 
 def sh_md(arguments):
